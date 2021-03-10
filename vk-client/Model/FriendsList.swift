@@ -12,3 +12,8 @@ struct User {
     let avatar: UIImage?
     let arrayImages: [(UIImage?,Int)]    
 }
+
+struct FriendSection {
+    let title: Character
+    let arrayUser: [User?]
+}
