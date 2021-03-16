@@ -132,6 +132,6 @@ class FriendsTableViewController: UITableViewController {
        }
         
     }
-   
+
 
 }

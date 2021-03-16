@@ -49,5 +49,7 @@ class newsButtonLike: UIView {
         newsLikeCount?.text = String(likeCount)
         
     }
+    
+    
 
 }
