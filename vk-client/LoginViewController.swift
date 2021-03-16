@@ -14,6 +14,8 @@ class LoginViewController: UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var buttonLogin: UIButton!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var vkImage: UIImageView!
+    @IBOutlet var loadIndikator: UIView!
     
     //MARK: lifecycle
     override func viewDidLoad() {
@@ -26,11 +28,63 @@ class LoginViewController: UIViewController {
     }
 
     @IBAction func loginButtonPressed(_ sender: UIButton) {
+        
+        loadIndikator.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(5000)) { [self] in
+            checkLoginPass()
+        }
+    }
+    
+    func checkLoginPass() {
         if loginTextField.text == "" && passwordTextField.text == "" {
-            performSegue(withIdentifier: "MainScreenPresentationSegue", sender: self)
+            self.performSegue(withIdentifier: "MainScreenPresentationSegue", sender: self)
         }else{
             print("Auth failed")
         }
+    }
+    
+    func animateTitlesAppearing() {
+        let offset = view.bounds.width
+        loginTextField.transform = CGAffineTransform(translationX: -offset, y: 0)
+        passwordTextField.transform = CGAffineTransform(translationX: offset, y: 0)
+        
+        UIView.animate(withDuration: 1,
+                       delay: 1,
+                       options: .curveEaseOut,
+                       animations: {
+                           self.loginTextField.transform = .identity
+                           self.passwordTextField.transform = .identity
+                       },
+                       completion: nil)
+    }
+    
+    func animateTitleAppearing() {
+        self.vkImage.transform = CGAffineTransform(translationX: 0,
+                                                     y: -self.view.bounds.height/2)
+        
+        UIView.animate(withDuration: 1,
+                       delay: 1,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 0,
+                       options: .curveEaseOut,
+                       animations: {
+                           self.vkImage.transform = .identity
+                       },
+                       completion: nil)
+    }
+    
+    func animateAuthButton() {
+        let animation = CASpringAnimation(keyPath: "transform.scale")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.stiffness = 200
+        animation.mass = 2
+        animation.duration = 2
+        animation.beginTime = CACurrentMediaTime() + 1
+        animation.fillMode = CAMediaTimingFillMode.backwards
+        
+        self.buttonLogin.layer.add(animation, forKey: nil)
     }
     
     //MARK: Scroll viev
@@ -56,7 +110,9 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        animateTitlesAppearing()
+        animateTitleAppearing()
+        animateAuthButton()
         // Подписываемся на два уведомления: одно приходит при появлении клавиатуры
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWasShown), name: UIResponder.keyboardWillShowNotification, object: nil)
         // Второе — когда она пропадает
@@ -68,6 +124,7 @@ class LoginViewController: UIViewController {
             
             NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
             NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+            
         }
 }
 

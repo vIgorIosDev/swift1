@@ -14,9 +14,7 @@ class FriendCell: UITableViewCell {
     @IBOutlet var friendAvatar: UIImageView!    
     @IBOutlet var friendCirckleViev: CircleViev!
     
-    
 
-    
     override func layoutSubviews() {
         
         super.layoutSubviews()
@@ -33,6 +31,10 @@ class FriendCell: UITableViewCell {
         friendCirckleViev.layer.shadowOffset = CGSize.zero
         friendCirckleViev.layer.cornerRadius = friendCirckleViev.frame.width / 2
     }
+    
+    
+
+    
 }
 
 
