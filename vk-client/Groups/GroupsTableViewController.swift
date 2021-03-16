@@ -11,14 +11,18 @@ class GroupsTableViewController: UITableViewController {
 
    
      var groupList = [
-        Group(name:"nice walk",avatar:UIImage(named: "nice walk")),
-        Group(name:"smile dog",avatar:UIImage(named: "smile dog")),
+        Group(name:"Nice walk",avatar:UIImage(named: "nice walk")),
+        Group(name:"Smile dog",avatar:UIImage(named: "smile dog")),
         Group(name:"Good Boy",avatar:UIImage(named: "GoodBoy")),
+
     ]
-//    @IBOutlet var tableView: UITableView!
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-       // tableView.dataSource = self
+       
+
         
     }
 
@@ -28,7 +32,9 @@ class GroupsTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return groupList.count
+
+            return groupList.count
+            
     }
 
     
@@ -37,9 +43,12 @@ class GroupsTableViewController: UITableViewController {
                 as? GroupCell else {
             return UITableViewCell()
         }
+
+        let currentItem = groupList[indexPath.row]
+             
         
-        cell.groupLabel.text = groupList[indexPath.row].name
-        cell.groupAvatar.image = groupList[indexPath.row].avatar
+        cell.groupLabel.text = currentItem.name
+        cell.groupAvatar.image = currentItem.avatar
 
         // Configure the cell...
         return cell
@@ -48,7 +57,8 @@ class GroupsTableViewController: UITableViewController {
     @IBAction func addGroup(segue: UIStoryboardSegue) {
         if let addGroupVievController = segue.source as? AddGroupViewController,
             let selectedIndexPath = addGroupVievController.tableView.indexPathForSelectedRow{
-                let selectedGroup = addGroupVievController.addGroupList[selectedIndexPath.row]
+                let selectedGroup = addGroupVievController.currentArray[selectedIndexPath.row]        
+            
             if !groupList.contains(selectedGroup) {
                 groupList.append(selectedGroup)
             tableView.reloadData()
@@ -103,3 +113,7 @@ class GroupsTableViewController: UITableViewController {
     */
     
 }
+
+
+
+

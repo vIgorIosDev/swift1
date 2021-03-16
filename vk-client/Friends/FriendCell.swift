@@ -15,8 +15,11 @@ class FriendCell: UITableViewCell {
     @IBOutlet var friendCirckleViev: CircleViev!
     
     
-    override  func awakeFromNib() {
-        super.awakeFromNib()
+
+    
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
         
         friendAvatar.layer.cornerRadius = friendAvatar.frame.width / 2
         friendAvatar.layer.borderWidth = 1
@@ -29,8 +32,6 @@ class FriendCell: UITableViewCell {
         friendCirckleViev.layer.shadowRadius = 5
         friendCirckleViev.layer.shadowOffset = CGSize.zero
         friendCirckleViev.layer.cornerRadius = friendCirckleViev.frame.width / 2
-      
-
     }
 }
 
